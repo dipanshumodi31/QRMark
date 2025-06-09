@@ -49,7 +49,7 @@ qrmark/
 ### Clone the repo
 
 ```bash
-git clone https://github.com/yourusername/qrmark.git
+git clone https://github.com/dipanshumodi31/qrmark.git
 cd qrmark
 ```
 
