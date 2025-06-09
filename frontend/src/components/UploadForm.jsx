@@ -93,7 +93,7 @@ function UploadForm() {
     formData.append('alpha', alpha);
 
     try {
-      const response = await fetch('http://localhost:8000/embed', {
+      const response = await fetch('https://qrmark-2hj6.onrender.com', {
         method: 'POST',
         body: formData,
       });
