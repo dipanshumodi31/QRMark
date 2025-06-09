@@ -36,7 +36,7 @@ function ExtractForm() {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:8000/extract', {
+      const response = await fetch('https://qrmark-2hj6.onrender.com/extract', {
         method: 'POST',
         body: formData,
       });
