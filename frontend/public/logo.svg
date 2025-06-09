@@ -24,13 +24,4 @@
     <circle cx="75" cy="75" r="20" fill="url(#gradientEye)" opacity="0.9"/>
     <circle cx="75" cy="75" r="8" fill="#ffffff" opacity="0.95"/>
     <path d="M75 55 L85 65 L75 95 L65 65 Z" fill="white" opacity="0.3"/> <!-- Subtle lens flare/light effect -->
-
-    <!-- Text "QRMArk" -->
-    <text x="150" y="85" font-family="Inter, sans-serif" font-size="60" font-weight="800" fill="#2d3748">
-        Q<tspan fill="url(#gradientQR)">R</tspan>M<tspan fill="url(#gradientEye)">Ark</tspan>
-    </text>
-
-    <!-- Subtle underline/marker for "Ark" to signify marking an image -->
-    <rect x="280" y="95" width="100" height="6" rx="3" fill="#57cc99" opacity="0.7"/>
-    <rect x="280" y="105" width="100" height="2" rx="1" fill="#764ba2" opacity="0.5"/>
 </svg>
