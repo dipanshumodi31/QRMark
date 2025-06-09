@@ -1,187 +1,143 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import UploadForm from './components/UploadForm';
 import ExtractForm from './components/ExtractForm';
+import { Sun, Moon } from 'lucide-react'; // Import Lucide icons for theme toggle
 
 function App() {
-  const [activeTab, setActiveTab] = useState('embed');
-  const [darkMode, setDarkMode] = useState(true);
+    // State to manage which tab is active: 'embed' or 'extract'
+    const [activeTab, setActiveTab] = useState('embed');
+    // State to manage dark mode, initialized from localStorage or defaults to false
+    const [darkMode, setDarkMode] = useState(() => {
+        try {
+            const storedTheme = localStorage.getItem('theme');
+            return storedTheme === 'dark';
+        } catch (error) {
+            console.warn("Failed to read theme from localStorage, defaulting to light mode:", error);
+            return false; // Default to light mode if localStorage is inaccessible
+        }
+    });
 
-  // Define theme colors
-  const themes = {
-    dark: {
-      background: '#121212',
-      sidebarBg: '#1f1f1f',
-      mainBg: '#222',
-      text: '#e0e0e0',
-      primary: '#4fc3f7',
-      buttonText: '#121212',
-      buttonBg: '#4fc3f7',
-      buttonHoverBg: '#333',
-      boxShadow: '0 8px 32px rgba(0,0,0,0.8)',
-    },
-    light: {
-      background: '#f5f5f5',
-      sidebarBg: '#e0e0e0',
-      mainBg: '#fff',
-      text: '#121212',
-      primary: '#0077cc',
-      buttonText: '#fff',
-      buttonBg: '#0077cc',
-      buttonHoverBg: '#005fa3',
-      boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-    },
-  };
+    // Effect to apply/remove 'dark' class to the html element
+    // and save preference to localStorage
+    useEffect(() => {
+        const html = document.documentElement;
+        if (darkMode) {
+            html.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            html.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        }
+    }, [darkMode]);
 
-  const theme = darkMode ? themes.dark : themes.light;
+    // Function to toggle dark mode
+    const toggleDarkMode = () => {
+        setDarkMode(prevMode => !prevMode);
+    };
 
-  return (
-    <div
-      style={{
-        display: 'flex',
-        height: '100vh',
-        width: '100vw',
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-        backgroundColor: theme.background,
-        color: theme.text,
-        transition: 'all 0.3s ease',
-      }}
-    >
-      {/* Sidebar */}
-      <nav
-        style={{
-          width: '240px',
-          backgroundColor: theme.sidebarBg,
-          boxShadow: `2px 0 8px rgba(0,0,0,${darkMode ? '0.8' : '0.3'})`,
-          padding: '2rem 1.5rem',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1.5rem',
-          transition: 'all 0.3s ease',
-        }}
-      >
-        <h1
-          style={{
-            marginBottom: '2.5rem',
-            fontWeight: '700',
-            fontSize: '3rem',
-            color: theme.primary,
-            userSelect: 'none',
-            transition: 'color 0.3s ease',
-          }}
-        >
-          QRMark
-        </h1>
+    return (
+        // Main container div. The 'dark:' classes here will apply
+        // dark mode styles to the overall background and text color when 'dark' class is on html.
+        // Child components (UploadForm, ExtractForm) explicitly use light backgrounds (bg-white)
+        // so their internal elements retain readability in dark mode, unless specifically
+        // styled with dark: variants inside those components.
+        <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 text-gray-800
+                        dark:from-gray-900 dark:to-gray-800 dark:text-gray-100
+                        p-4 sm:p-6 lg:p-8 flex flex-col items-center transition-colors duration-300">
 
-        {/* Dark mode toggle */}
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          aria-label="Toggle light/dark mode"
-          title="Toggle light/dark mode"
-          style={{
-            position: "absolute",
-            top: "2rem",
-            right: "2.2rem",
-            background: "transparent",
-            border: "none",
-            cursor: "pointer",
-            padding: 0,
-            width: 36,
-            height: 36,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >{darkMode ? (
-            // Moon icon for dark mode
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="50"
-              height="50"
-              fill={theme.buttonBg}
-              viewBox="0 0 21 21"
-              
-            >
-              <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" />
-            </svg>
-          ) : (
-            // Sun icon for light mode
-            <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="50"
-            height="50"
-            fill={theme.buttonBg}
-            viewBox="0 0 24 24"
-            >
-            <circle cx="12" cy="12" r="5" />
-            <g stroke={theme.buttonBg} strokeWidth="2">
-                <line x1="12" y1="1" x2="12" y2="4" />
-                <line x1="12" y1="20" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="6.34" y2="6.34" />
-                <line x1="17.66" y1="17.66" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="4" y2="12" />
-                <line x1="20" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="6.34" y2="17.66" />
-                <line x1="17.66" y1="6.34" x2="19.78" y2="4.22" />
-            </g>
-            </svg>
-          )}
-        </button>
+            {/* Header and Logo Section */}
+            <header className="w-full max-w-4xl bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-xl shadow-lg mb-8
+                               flex flex-col items-center relative transition-colors duration-300">
+                {/* QRMArk Logo SVG - Directly embedded for simplicity, can be moved to its own component */}
+                <svg className="w-full max-w-sm h-auto mb-4" viewBox="0 0 400 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="gradientQR" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#667eea" />
+                            <stop offset="100%" stopColor="#764ba2" />
+                        </linearGradient>
+                        <linearGradient id="gradientEye" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#38a3a5" />
+                            <stop offset="100%" stopColor="#57cc99" />
+                        </linearGradient>
+                    </defs>
+                    {/* Base for the 'Q' with QR pattern hints */}
+                    <rect x="20" y="20" width="110" height="110" rx="15" fill="url(#gradientQR)"/>
+                    {/* QR code-like patterns within the 'Q' area */}
+                    <rect x="35" y="35" width="20" height="20" rx="3" fill="white" opacity="0.8"/>
+                    <rect x="65" y="35" width="20" height="20" rx="3" fill="white" opacity="0.8"/>
+                    <rect x="35" y="65" width="20" height="20" rx="3" fill="white" opacity="0.8"/>
+                    <rect x="95" y="65" width="10" height="10" rx="2" fill="white" opacity="0.6"/>
+                    <rect x="65" y="95" width="20" height="20" rx="3" fill="white" opacity="0.8"/>
+                    {/* 'Eye' / Lens / Hidden data symbol inside the QR area */}
+                    <circle cx="75" cy="75" r="20" fill="url(#gradientEye)" opacity="0.9"/>
+                    <circle cx="75" cy="75" r="8" fill="#ffffff" opacity="0.95"/>
+                    <path d="M75 55 L85 65 L75 95 L65 65 Z" fill="white" opacity="0.3"/> {/* Subtle lens flare/light effect */}
+                    {/* Text "QRMArk" */}
+                    {/* Adjusted text fill for dark mode readability, or use original colors if preferred */}
+                    <text x="150" y="85" fontFamily="Inter, sans-serif" fontSize="60" fontWeight="800" fill={darkMode ? "#cbd5e0" : "#2d3748"}>
+                        Q<tspan fill="url(#gradientQR)">R</tspan>M<tspan fill="url(#gradientEye)">Ark</tspan>
+                    </text>
+                    {/* Subtle underline/marker for "Ark" to signify marking an image */}
+                    <rect x="280" y="95" width="100" height="6" rx="3" fill="#57cc99" opacity="0.7"/>
+                    <rect x="280" y="105" width="100" height="2" rx="1" fill="#764ba2" opacity="0.5"/>
+                </svg>
+                <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight text-center
+                                dark:text-gray-100 transition-colors duration-300">
+                    Invisible QR Watermarking
+                </h1>
+                <p className="text-lg text-gray-600 mt-2 text-center max-w-xl
+                              dark:text-gray-300 transition-colors duration-300">
+                    Seamlessly embed and extract hidden QR code data in your images.
+                </p>
 
-        {/* Tabs */}
-        {['embed', 'extract'].map((tab) => {
-          const label = tab === 'embed' ? 'Embed QR Code' : 'Extract QR Code';
-          const isActive = activeTab === tab;
-          return (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              style={{
-                padding: '0.75rem 1.25rem',
-                backgroundColor: isActive ? theme.buttonBg : 'transparent',
-                border: 'none',
-                color: isActive ? theme.buttonText : (darkMode ? '#bbb' : '#444'),
-                cursor: 'pointer',
-                borderRadius: '8px',
-                fontWeight: isActive ? '700' : '500',
-                fontSize: '1rem',
-                textAlign: 'left',
-                boxShadow: isActive
-                  ? `0 4px 12px ${theme.buttonBg}AA`
-                  : 'none',
-                transition:
-                  'background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                if (!isActive) e.currentTarget.style.backgroundColor = theme.buttonHoverBg;
-              }}
-              onMouseLeave={(e) => {
-                if (!isActive) e.currentTarget.style.backgroundColor = 'transparent';
-              }}
-            >
-              {label}
-            </button>
-          );
-        })}
-      </nav>
+                {/* Dark mode toggle button */}
+                <button
+                    onClick={toggleDarkMode}
+                    className="absolute top-6 right-6 p-2 rounded-full
+                               bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200
+                               hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2
+                               transition-colors duration-300"
+                    aria-label="Toggle light/dark mode"
+                    title="Toggle light/dark mode"
+                >
+                    {darkMode ? <Sun size={24} /> : <Moon size={24} />}
+                </button>
+            </header>
 
-      {/* Main Content */}
-      <main
-        style={{
-          flexGrow: 1,
-          padding: '2.5rem 3rem',
-          overflowY: 'auto',
-          backgroundColor: theme.mainBg,
-          margin: '1.5rem',
-          borderRadius: '16px',
-          boxShadow: theme.boxShadow,
-          transition: 'all 0.3s ease',
-        }}
-      >
-        {activeTab === 'embed' && <UploadForm darkMode={darkMode} />}
-        {activeTab === 'extract' && <ExtractForm darkMode={darkMode} />}
-      </main>
-    </div>
-  );
+            {/* Navigation Tabs */}
+            <nav className="w-full max-w-4xl bg-white dark:bg-gray-800 p-2 rounded-xl shadow-lg mb-8
+                               flex flex-col sm:flex-row justify-center gap-4 transition-colors duration-300">
+                <button
+                    onClick={() => setActiveTab('embed')}
+                    className={`flex-1 px-6 py-3 rounded-lg font-semibold text-lg transition-all duration-300 ease-in-out
+                        ${activeTab === 'embed'
+                            ? 'bg-purple-600 text-white shadow-md'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600'
+                        }`}
+                >
+                    Embed QR Code
+                </button>
+                <button
+                    onClick={() => setActiveTab('extract')}
+                    className={`flex-1 px-6 py-3 rounded-lg font-semibold text-lg transition-all duration-300 ease-in-out
+                        ${activeTab === 'extract'
+                            ? 'bg-purple-600 text-white shadow-md'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600'
+                        }`}
+                >
+                    Extract QR Code
+                </button>
+            </nav>
+
+            {/* Main Content Area */}
+            <main className="w-full max-w-4xl bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl shadow-lg
+                             transition-colors duration-300 overflow-hidden"> {/* overflow-hidden to prevent layout shifts */}
+                {/* Render the active component */}
+                {activeTab === 'embed' && <UploadForm />}
+                {activeTab === 'extract' && <ExtractForm />}
+            </main>
+        </div>
+    );
 }
 
 export default App;
