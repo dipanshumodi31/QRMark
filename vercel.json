@@ -17,5 +17,15 @@
       "config": { "maxLambdaSize": 15, "runtime": "python3.11" }
     }
   ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "frontend/dist/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/dist/$1"
+    }
+  ],
   "outputDirectory": "frontend/dist"
 }
