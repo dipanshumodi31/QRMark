@@ -63,7 +63,7 @@ function ExtractForm() {
 
         try {
             // Note: Replace 'http://localhost:8000/extract' with your actual backend URL
-            const response = await fetch('/api/extract', {
+            const response = await fetch('https://qrmark-vercel-production.up.railway.app/extract', {
                 method: 'POST',
                 body: formData,
             });
