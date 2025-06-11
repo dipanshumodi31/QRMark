@@ -14,12 +14,8 @@
     {
       "src": "backend/app.py",
       "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb", "runtime": "python3.11" }
+      "config": { "maxLambdaSize": 15, "runtime": "python3.11" }
     }
-    // No need to define specific routes for backend/app.py here.
-    // Vercel's @vercel/python builder will automatically expose
-    // the routes defined within app.py (e.g., /embed, /extract, /capture)
-    // relative to the "src" path (backend/app.py becomes /api/).
   ],
   "outputDirectory": "frontend/dist"
 }
