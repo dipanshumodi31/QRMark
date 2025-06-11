@@ -29,17 +29,19 @@ function DecodedQRDisplay({ decodedData }) {
     };
 
     return (
-        <div className="mt-8 p-6 bg-gray-50 rounded-xl shadow-md border border-gray-200">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">Decoded QR Data</h3>
+        // Main container: Adjusted background and border for dark mode
+        <div className="mt-8 p-6 bg-gray-50 dark:bg-gray-700 rounded-xl shadow-md border border-gray-200 dark:border-gray-600">
+            <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4 text-center">Decoded QR Data</h3>
             
-            {/* Display area for decoded data */}
+            {/* Display area for decoded data: Adjusted background and text for dark mode */}
             <pre
-                className="bg-gray-800 text-teal-400 p-4 rounded-lg overflow-x-auto text-sm md:text-base font-mono leading-relaxed whitespace-pre-wrap break-words shadow-inner"
+                className="bg-gray-800 dark:bg-gray-900 text-teal-400 p-4 rounded-lg overflow-x-auto text-sm md:text-base font-mono leading-relaxed whitespace-pre-wrap break-words shadow-inner"
             >
                 {decodedData}
             </pre>
 
-            {/* Copy to Clipboard Button */}
+            {/* Copy to Clipboard Button: Colors already responsive from previous updates,
+                but ensure text color is consistent */}
             <button
                 onClick={copyToClipboard}
                 className={`mt-4 w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-semibold rounded-lg shadow-md transition-all duration-300

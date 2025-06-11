@@ -141,7 +141,7 @@ function UploadForm() {
 
         try {
             // Note: Replace 'http://localhost:8000/embed' with your actual backend URL
-            const response = await fetch('https://qrmark-2hj6.onrender.com/embed', {
+            const response = await fetch('/api/embed', {
                 method: 'POST',
                 body: formData,
             });
@@ -182,15 +182,16 @@ function UploadForm() {
     };
 
     return (
-        <div className="max-w-xl mx-auto p-4 md:p-6 bg-white shadow-xl rounded-xl space-y-6">
-            <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6">Embed QR Code</h2>
+        // Changed bg-white to bg-qr-main-light dark:bg-qr-main-dark for dark mode blending
+        <div className="max-w-xl mx-auto p-4 md:p-6 bg-qr-main-light dark:bg-qr-main-dark shadow-xl rounded-xl space-y-6">
+            <h2 className="text-3xl font-extrabold text-center text-gray-800 dark:text-gray-100 mb-6">Embed QR Code</h2>
 
             {/* Custom Message Box */}
             {message && (
                 <div className={`p-3 rounded-lg flex items-center space-x-2 transition-all duration-300 ease-in-out
-                    ${messageType === 'success' ? 'bg-green-100 text-green-700 border border-green-200' : ''}
-                    ${messageType === 'error' ? 'bg-red-100 text-red-700 border border-red-200' : ''}
-                    ${messageType === 'info' ? 'bg-blue-100 text-blue-700 border border-blue-200' : ''}
+                    ${messageType === 'success' ? 'bg-green-100 text-green-700 border border-green-200 dark:bg-green-800 dark:text-green-100 dark:border-green-700' : ''}
+                    ${messageType === 'error' ? 'bg-red-100 text-red-700 border border-red-200 dark:bg-red-800 dark:text-red-100 dark:border-red-700' : ''}
+                    ${messageType === 'info' ? 'bg-blue-100 text-blue-700 border border-blue-200 dark:bg-blue-800 dark:text-blue-100 dark:border-blue-700' : ''}
                 `}>
                     {messageType === 'success' && <CheckCircle size={20} />}
                     {messageType === 'error' && <XCircle size={20} />}
@@ -202,15 +203,15 @@ function UploadForm() {
             <form onSubmit={handleSubmit} className="space-y-5">
                 {/* File Input */}
                 <div>
-                    <label htmlFor="image-upload" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="image-upload" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Select Image to Watermark
                     </label>
                     <div className="flex items-center justify-center w-full">
-                        <label htmlFor="image-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
+                        <label htmlFor="image-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors duration-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600">
                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                <ImageUp className="w-8 h-8 mb-3 text-gray-500" />
-                                <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                                <p className="text-xs text-gray-500">PNG, JPG, GIF (MAX. 800x400px)</p>
+                                <ImageUp className="w-8 h-8 mb-3 text-gray-500 dark:text-gray-300" />
+                                <p className="mb-2 text-sm text-gray-500 dark:text-gray-300"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, GIF (MAX. 800x400px)</p>
                             </div>
                             <input
                                 id="image-upload"
@@ -222,13 +223,13 @@ function UploadForm() {
                         </label>
                     </div>
                     {file && (
-                        <p className="mt-2 text-sm text-gray-600 text-center">Selected file: <span className="font-medium">{file.name}</span></p>
+                        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 text-center">Selected file: <span className="font-medium">{file.name}</span></p>
                     )}
                 </div>
 
                 {/* QR Data Input & Copy */}
                 <div>
-                    <label htmlFor="qr-data" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="qr-data" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Enter QR Data
                     </label>
                     <div className="flex flex-col sm:flex-row gap-3">
@@ -238,7 +239,7 @@ function UploadForm() {
                             placeholder="e.g., Your secret message or URL"
                             value={qrData}
                             onChange={e => setQrData(e.target.value)}
-                            className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm transition-all duration-200"
+                            className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm transition-all duration-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400"
                         />
                         <button
                             type="button"
@@ -256,8 +257,8 @@ function UploadForm() {
 
                 {/* Alpha Slider */}
                 <div>
-                    <label htmlFor="alpha-range" className="block text-sm font-medium text-gray-700 mb-1">
-                        Watermark Visibility (Alpha): <strong className="text-indigo-600">{alpha}</strong>
+                    <label htmlFor="alpha-range" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Watermark Visibility (Alpha): <strong className="text-indigo-600 dark:text-indigo-400">{alpha}</strong>
                     </label>
                     <input
                         id="alpha-range"
@@ -266,7 +267,7 @@ function UploadForm() {
                         max="100"
                         value={alpha}
                         onChange={e => setAlpha(parseInt(e.target.value))}
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700"
                     />
                 </div>
 
@@ -308,7 +309,7 @@ function UploadForm() {
                             autoPlay
                             muted
                             playsInline
-                            className="w-full max-w-lg rounded-lg shadow-md border border-gray-300"
+                            className="w-full max-w-lg rounded-lg shadow-md border border-gray-300 dark:border-gray-600"
                         />
                     </div>
                 )}
@@ -316,11 +317,11 @@ function UploadForm() {
                 {/* File/Captured Image Preview */}
                 {file && !showCamera && (
                     <div className="mt-6 text-center">
-                        <h4 className="text-lg font-semibold text-gray-800 mb-3">Image to be Watermarked:</h4>
+                        <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-3">Image to be Watermarked:</h4>
                         <img
                             src={URL.createObjectURL(file)}
                             alt="Uploaded preview"
-                            className="max-w-full h-auto mx-auto rounded-lg shadow-lg border border-gray-200 object-contain"
+                            className="max-w-full h-auto mx-auto rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 object-contain"
                             style={{ maxHeight: '300px' }} // Limit height for large images
                         />
                     </div>
@@ -352,12 +353,12 @@ function UploadForm() {
             {/* Preview Captured Image Modal */}
             {previewUrl && (
                 <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white p-6 rounded-xl shadow-2xl max-w-lg w-full text-center space-y-4">
-                        <h3 className="text-xl font-bold text-gray-800">📸 Captured Image Preview</h3>
+                    <div className="bg-qr-main-light dark:bg-qr-main-dark p-6 rounded-xl shadow-2xl max-w-lg w-full text-center space-y-4">
+                        <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">📸 Captured Image Preview</h3>
                         <img
                             src={previewUrl}
                             alt="Captured Preview"
-                            className="max-w-full h-auto mx-auto rounded-lg shadow-md border border-gray-200 object-contain"
+                            className="max-w-full h-auto mx-auto rounded-lg shadow-md border border-gray-200 dark:border-gray-600 object-contain"
                             style={{ maxHeight: '60vh' }}
                         />
                         <div className="flex flex-col sm:flex-row justify-center gap-3 mt-4">
@@ -380,12 +381,12 @@ function UploadForm() {
 
             {/* Watermarked Image Output */}
             {outputUrl && (
-                <div className="mt-8 text-center bg-gray-50 p-6 rounded-xl shadow-md space-y-4">
-                    <h3 className="text-2xl font-bold text-gray-800">Watermarked Image Result</h3>
+                <div className="mt-8 text-center bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-md space-y-4">
+                    <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Watermarked Image Result</h3>
                     <img
                         src={outputUrl}
                         alt="Watermarked Output"
-                        className="max-w-full h-auto mx-auto rounded-lg shadow-lg border border-gray-200 object-contain"
+                        className="max-w-full h-auto mx-auto rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 object-contain"
                         style={{ maxHeight: '400px' }}
                     />
                     <a

@@ -1,0 +1,42 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/"
+    }
+  ],
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": { "outputDirectory": "dist" }
+    },
+    {
+      "src": "backend/app.py",
+      "use": "@vercel/python",
+      "config": { "maxLambdaSize": "15mb", "runtime": "python3.11" }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/embed",
+      "dest": "backend/app.py",
+      "methods": ["POST"]
+    },
+    {
+      "src": "/api/extract",
+      "dest": "backend/app.py",
+      "methods": ["POST"]
+    },
+    {
+      "src": "/api/capture",
+      "dest": "backend/app.py",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/$1"
+    }
+  ],
+  "outputDirectory": "frontend/dist"
+}

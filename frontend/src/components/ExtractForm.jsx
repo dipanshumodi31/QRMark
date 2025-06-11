@@ -10,7 +10,7 @@ function ExtractForm() {
     const [message, setMessage] = useState(''); // State for custom messages (success/error/info)
     const [messageType, setMessageType] = useState(''); // 'success', 'error', 'info'
 
-    const messageTimeoutRef = useRef(null); // Ref to hold the timeout ID for messages
+    const messageTimeoutRef = useRef(null); // Ref for message timeout
 
     // Function to show custom messages
     const showMessageBox = (msg, type = 'info') => {
@@ -63,7 +63,7 @@ function ExtractForm() {
 
         try {
             // Note: Replace 'http://localhost:8000/extract' with your actual backend URL
-            const response = await fetch('https://qrmark-2hj6.onrender.com/extract', {
+            const response = await fetch('/api/extract', {
                 method: 'POST',
                 body: formData,
             });
@@ -87,15 +87,16 @@ function ExtractForm() {
     };
 
     return (
-        <div className="max-w-xl mx-auto p-4 md:p-6 bg-white shadow-xl rounded-xl space-y-6">
-            <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6">Extract QR Code</h2>
+        // Changed bg-white to bg-qr-main-light dark:bg-qr-main-dark for dark mode blending
+        <div className="max-w-xl mx-auto p-4 md:p-6 bg-qr-main-light dark:bg-qr-main-dark shadow-xl rounded-xl space-y-6">
+            <h2 className="text-3xl font-extrabold text-center text-gray-800 dark:text-gray-100 mb-6">Extract QR Code</h2>
 
             {/* Custom Message Box */}
             {message && (
                 <div className={`p-3 rounded-lg flex items-center space-x-2 transition-all duration-300 ease-in-out
-                    ${messageType === 'success' ? 'bg-green-100 text-green-700 border border-green-200' : ''}
-                    ${messageType === 'error' ? 'bg-red-100 text-red-700 border border-red-200' : ''}
-                    ${messageType === 'info' ? 'bg-blue-100 text-blue-700 border border-blue-200' : ''}
+                    ${messageType === 'success' ? 'bg-green-100 text-green-700 border border-green-200 dark:bg-green-800 dark:text-green-100 dark:border-green-700' : ''}
+                    ${messageType === 'error' ? 'bg-red-100 text-red-700 border border-red-200 dark:bg-red-800 dark:text-red-100 dark:border-red-700' : ''}
+                    ${messageType === 'info' ? 'bg-blue-100 text-blue-700 border border-blue-200 dark:bg-blue-800 dark:text-blue-100 dark:border-blue-700' : ''}
                 `}>
                     {messageType === 'success' && <CheckCircle size={20} />}
                     {messageType === 'error' && <XCircle size={20} />}
@@ -107,15 +108,15 @@ function ExtractForm() {
             <form onSubmit={handleExtract} className="space-y-5">
                 {/* File Input */}
                 <div>
-                    <label htmlFor="image-upload-extract" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="image-upload-extract" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Select Watermarked Image
                     </label>
                     <div className="flex items-center justify-center w-full">
-                        <label htmlFor="image-upload-extract" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
+                        <label htmlFor="image-upload-extract" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors duration-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600">
                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                <UploadCloud className="w-8 h-8 mb-3 text-gray-500" />
-                                <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                                <p className="text-xs text-gray-500">PNG, JPG, GIF</p>
+                                <UploadCloud className="w-8 h-8 mb-3 text-gray-500 dark:text-gray-300" />
+                                <p className="mb-2 text-sm text-gray-500 dark:text-gray-300"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, GIF</p>
                             </div>
                             <input
                                 id="image-upload-extract"
@@ -127,18 +128,18 @@ function ExtractForm() {
                         </label>
                     </div>
                     {file && (
-                        <p className="mt-2 text-sm text-gray-600 text-center">Selected file: <span className="font-medium">{file.name}</span></p>
+                        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 text-center">Selected file: <span className="font-medium">{file.name}</span></p>
                     )}
                 </div>
 
                 {/* Image Preview */}
                 {filePreview && (
                     <div className="mt-4 text-center bg-gray-900 p-3 rounded-lg shadow-inner border border-gray-700">
-                        <h4 className="text-md font-semibold text-gray-200 mb-2">Image Preview:</h4>
+                        <h4 className="text-md font-semibold text-gray-200 dark:text-gray-300 mb-2">Image Preview:</h4>
                         <img
                             src={filePreview}
                             alt="Preview"
-                            className="max-w-full h-auto mx-auto rounded-lg object-contain border border-gray-600"
+                            className="max-w-full h-auto mx-auto rounded-lg object-contain border border-gray-600 dark:border-gray-500"
                             style={{ maxHeight: '300px' }} // Limit height for larger screens
                         />
                     </div>
