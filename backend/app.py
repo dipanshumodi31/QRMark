@@ -23,9 +23,9 @@ def root():
     return {"message": "QR Embed/Extract API is live ✅"}
 
 
-@app.get("/capture")
-def capture():
-    return capture_high_res_image()
+# @app.get("/capture")
+# def capture():
+#     return capture_high_res_image()
 
 @app.post("/embed")
 async def embed_qr(
