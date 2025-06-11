@@ -141,7 +141,7 @@ function UploadForm() {
 
         try {
             // Note: Replace 'http://localhost:8000/embed' with your actual backend URL
-            const response = await fetch('/api/embed', {
+            const response = await fetch('https://qrmark-vercel-production.up.railway.app/embed', {
                 method: 'POST',
                 body: formData,
             });
