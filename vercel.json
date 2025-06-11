@@ -8,8 +8,8 @@
   ],
   "functions": {
     "backend/app.py": {
-      "runtime": "python3.11",
-      "maxLambdaSize": 15
+      "runtime": "python3.11"
+      // Removed "maxLambdaSize": 15
     }
   },
   "rewrites": [
