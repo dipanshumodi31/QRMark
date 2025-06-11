@@ -8,15 +8,13 @@ WORKDIR /app
 # libzbar0 is for pyzbar
 RUN apt-get update && apt-get install -y \
     libzbar0 \
-    # Add any other system dependencies if needed, e.g., for Pillow (libjpeg-dev, zlib1g-dev)
-    # libgl1-mesa-glx # Sometimes needed for headless if OpenCV has a weird dependency
-    # libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev # For video if you were doing that
-    # libsm6 libxext6 libxrender-dev
+    # You can add other system dependencies here if needed in the future
+    # e.g., libjpeg-dev zlib1g-dev for Pillow, or libgl1-mesa-glx for some OpenCV setups
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m pip install --no-cache-dir -r requirements.txt # <--- CHANGED THIS LINE
 
 # Copy the rest of your application code
 COPY . .
@@ -27,5 +25,5 @@ EXPOSE 8000
 # Command to run the application
 # Railway typically injects $PORT, so use that
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
-# Or, if your Railway start command uses $PORT:
+# If Railway requires explicit $PORT (check Railway's docs/logs if it doesn't run):
 # CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "$PORT"]
