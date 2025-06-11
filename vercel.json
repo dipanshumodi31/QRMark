@@ -14,11 +14,11 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/backend/app.py"
+      "destination": "/api/app"
     },
     {
       "source": "/(.*)",
-      "destination": "/frontend/dist/$1"
+      "destination": "/index.html"
     }
   ]
 }
