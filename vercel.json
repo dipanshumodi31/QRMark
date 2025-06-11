@@ -16,27 +16,10 @@
       "use": "@vercel/python",
       "config": { "maxLambdaSize": "15mb", "runtime": "python3.11" }
     }
-  ],
-  "routes": [
-    {
-      "src": "/api/embed",
-      "dest": "backend/app.py",
-      "methods": ["POST"]
-    },
-    {
-      "src": "/api/extract",
-      "dest": "backend/app.py",
-      "methods": ["POST"]
-    },
-    {
-      "src": "/api/capture",
-      "dest": "backend/app.py",
-      "methods": ["GET"]
-    },
-    {
-      "src": "/(.*)",
-      "dest": "frontend/$1"
-    }
+    // No need to define specific routes for backend/app.py here.
+    // Vercel's @vercel/python builder will automatically expose
+    // the routes defined within app.py (e.g., /embed, /extract, /capture)
+    // relative to the "src" path (backend/app.py becomes /api/).
   ],
   "outputDirectory": "frontend/dist"
 }
