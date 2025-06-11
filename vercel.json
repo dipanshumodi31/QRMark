@@ -1,5 +1,4 @@
 {
-  "outputDirectory": "frontend/dist",
   "builds": [
     {
       "src": "frontend/package.json",
@@ -12,11 +11,20 @@
       "config": { "runtime": "python3.11" }
     }
   ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/frontend/dist/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/dist/$1"
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
       "destination": "/backend/app.py"
     }
-  ],
-  "cleanUrls": true
+  ]
 }
