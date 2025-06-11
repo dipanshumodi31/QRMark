@@ -4,7 +4,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from io import BytesIO
 from PIL import Image
 import numpy as np
-from camera_capture import capture_high_res_image
 from embedder import embed_qr_in_cr_hl_subband
 from extractor import extract_qr_from_cr_hl_subband
 
