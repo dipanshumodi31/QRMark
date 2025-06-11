@@ -20,7 +20,6 @@ def decode_qr_from_tile(tile, qr_size=(150, 150), tile_index=0):
     debug_dir = "output_images"
     os.makedirs(debug_dir, exist_ok=True)
     debug_path = f"{debug_dir}/qr_candidate_debug_tile{tile_index}.png"
-    cv2.imwrite(debug_path, qr_binary)
     print(f"[i] Saved extracted QR candidate tile {tile_index} to {debug_path}")
 
     qr_denoised = cv2.fastNlMeansDenoising(qr_binary, h=10, templateWindowSize=7, searchWindowSize=21)
@@ -33,7 +32,6 @@ def decode_qr_from_tile(tile, qr_size=(150, 150), tile_index=0):
     _, qr_final = cv2.threshold(qr_cleaned, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
 
     debug_cleaned_path = f"{debug_dir}/qr_cleaned_debug_tile{tile_index}.png"
-    cv2.imwrite(debug_cleaned_path, qr_final)
     print(f"[i] Cleaned QR tile {tile_index} saved to: {debug_cleaned_path}")
 
     pil_img = Image.fromarray(qr_final)
