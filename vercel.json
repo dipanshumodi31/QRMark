@@ -4,13 +4,14 @@
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": { "outputDirectory": "dist" }
-    },
-    {
-      "src": "backend/app.py",
-      "use": "@vercel/python",
-      "config": { "maxLambdaSize": 15, "runtime": "python3.11" }
     }
   ],
+  "functions": {
+    "backend/app.py": {
+      "runtime": "python3.11",
+      "maxLambdaSize": 15
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
@@ -21,5 +22,4 @@
       "destination": "/frontend/dist/$1"
     }
   ]
-
 }
