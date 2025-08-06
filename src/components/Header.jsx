@@ -17,9 +17,11 @@ function Header({ currentView, onNavigate, darkMode, onToggleDarkMode }) {
                         className="flex items-center cursor-pointer group"
                         onClick={() => onNavigate('hero')}
                     >
-                        <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-200">
-                            <span className="text-white font-bold text-sm">QR</span>
-                        </div>
+                        <img
+                            src="/two.svg"
+                            alt="QRMark Logo"
+                            className="w-8 h-8 rounded-lg mr-3 group-hover:scale-110 transition-transform duration-200"
+                        />
                         <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                             QRMark
                         </span>
